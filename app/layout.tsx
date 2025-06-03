@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import Provider from "./provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manRope = Space_Grotesk({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "600", "700"], // Add the weights you need
+  variable: "--font-space-grotesk", // Optional: for CSS variable usage
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -24,10 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${manRope.className}  antialiased`}>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
