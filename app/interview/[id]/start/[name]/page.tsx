@@ -1,0 +1,244 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card/card";
+import { Mic, Phone, Timer } from "lucide-react";
+import Image from "next/image";
+import Vapi from "@vapi-ai/web";
+import { useDashboardStore } from "@/app/dashboard/store";
+import { useParams } from "next/navigation";
+import { useGetFeedback } from "../../query/mutation";
+import { createClient } from "@/utils/supabase/client";
+
+const Start = () => {
+  const { name } = useParams();
+  const supabase = createClient();
+  const [conversation, setConversation] = useState({});
+  const interviewInfo = useDashboardStore((s) => s.interviewInfo);
+  const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY as string);
+  const { mutate: getFeedback } = useGetFeedback();
+
+  useEffect(() => {
+    interviewInfo && startCall();
+  }, [interviewInfo]);
+
+  const startCall = () => {
+    let questionList;
+    interviewInfo?.questions_list?.forEach((question) => {
+      questionList = question?.question + "," + questionList;
+    });
+    const assistant = {
+      name: "AI Recruiter",
+      firstMessage: `Hi! ${name}, how are you? Ready for your interview on ${interviewInfo?.job_position}`,
+      model: {
+        provider: "openai",
+        model: "gpt-4o",
+        temperature: 0.7,
+        messages: [
+          {
+            role: "system",
+            content: `
+              You are an AI voice assistant conducting interviews.
+              Your job is to ask candidates provided interview questions and assess their responses.
+              Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:
+              "Hey there! Welcome to your ${interviewInfo?.job_position} interview. Let's get started with a few questions!"
+              Ask one question at a time and wait for the candidate's response before proceeding. Keep the questions clear and concise. Below are the questions.
+              Questions:${questionList}
+              If the candidate struggles, offer hints or rephrase the question without giving away the answer. Example:
+              "Need a hint? Think about how React tracks component updates!"
+              Provide brief, encouraging feedback after each answer. Example:
+              "Nice! That's a solid answer."
+              "Hmm, not quite! Want to try again?"
+              Keep the conversation natural and engaging — use casual phrases like "Alright, next up..." or "Let's tackle a tricky one!"
+              After 5-7 questions, wrap up the interview smoothly by summarizing their performance. Example:
+              "That was great! You handled some tough questions well. Keep sharpening your skills!"
+              End on a positive note:
+              "Thanks for chatting! Hope to see you crushing projects soon!"
+              Key Guidelines:
+              Be friendly, engaging, and witty.
+              Keep responses short and natural, like a real conversation.
+              Adapt based on the candidate's confidence level.
+              Ensure the interview remains focused on React.
+            `.trim(),
+          },
+        ],
+      },
+      voice: {
+        provider: "vapi",
+        voiceId: "Neha",
+      },
+    };
+
+    // vapi.start(assistant);
+  };
+  vapi.on("message", (message) => {
+    console.log(message, "MESSAGE");
+    setConversation(message?.conversation);
+  });
+
+  vapi.on("call-end", () => {
+    handleAddFeedback();
+  });
+
+  const createFeedback = async (val) => {
+    const { data } = await supabase
+      .from("interview-feedback")
+      .insert([
+        {
+          user_name: name,
+          user_email: interviewInfo?.user_email,
+          interview_id: interviewInfo?.interview_id,
+          feedback: JSON.parse(val),
+          recommended: false,
+        },
+      ])
+      ?.select();
+    console.log(data, "DAAT");
+  };
+
+  const handleAddFeedback = () => {
+    const payload = {
+      conversation: [
+        {
+          role: "system",
+          content:
+            "You are an AI voice assistant conducting interviews.\n              Your job is to ask candidates provided interview questions and assess their responses.\n              Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:\n              \"Hey there! Welcome to your Frontend Developer` interview. Let's get started with a few questions!\"\n              Ask one question at a time and wait for the candidate's response before proceeding. Keep the questions clear and concise. Below are the questions.\n              Questions:Describe your experience with version control using Git. What branching strategies are you comfortable with?,How do you approach testing your React components? Are you familiar with Jest and React Testing Library?,Have you worked with build tools like Webpack or Vite? Can you briefly describe your experience with configuring or troubleshooting them?,What are your preferred methods for ensuring cross-browser compatibility and a...",
+        },
+        {
+          role: "assistant",
+          content:
+            "Hi, Mohit. How are you? Ready for your interview on front end developer?",
+        },
+        {
+          role: "user",
+          content: "Yeah. Sure. But, uh, can we share you after 5 minutes?",
+        },
+        {
+          role: "assistant",
+          content:
+            "Of course, Mohit. Take your time, and we'll start when you're ready. Just give me a shout when you're all set.",
+        },
+        {
+          role: "user",
+          content:
+            "No. No. Like, I I want to put the call. After that, I I I'll just ping you.",
+        },
+        {
+          role: "assistant",
+          content:
+            "Got it. No problem at all, Mohit. Just let me know when you're ready to jump back in, and we'll pick up from there. Talk soon.",
+        },
+        {
+          role: "user",
+          content: "Sure.",
+        },
+        {
+          role: "assistant",
+          content:
+            "Hey, Mohit. Welcome back. Let's get started with your front end developer.",
+        },
+        {
+          role: "user",
+          content:
+            "No. No. Can can we can we stop the interview? I have to go somewhere.",
+        },
+        {
+          role: "assistant",
+          content:
+            "No worries at all, Mohit. No worries at all, Mohit. Life happens. We can always reschedule for a better time. Take care, and good luck with whatever you need to attend to. See you soon.",
+        },
+        {
+          role: "user",
+          content: "Yeah. Bye.",
+        },
+        {
+          role: "assistant",
+          content:
+            "Bye, Mohit. Take care. Hey again. Changed your mind? Want to jump back into the interview?",
+        },
+        {
+          role: "user",
+          content:
+            "Oh, can you please cut the call? Can can we end this call over there?",
+        },
+        {
+          role: "assistant",
+          content:
+            "Absolutely, Mohit. We'll wrap it up here. Have a great day ahead.",
+        },
+        {
+          role: "user",
+          content:
+            "Yeah. This I literally got power electricity at the beam struck. But",
+        },
+        {
+          role: "assistant",
+          content:
+            "Oh, no. That sounds no problem, Mohit. Sounds like you're dealing with a sudden situation. Let's pause here, and you can reach out when things settle down. Take care.",
+        },
+      ],
+    };
+    getFeedback(payload, {
+      onSuccess: (val) => {
+        console.log(val, interviewInfo, "DATA");
+        createFeedback(val);
+        // console.log(data, "DAAT");
+      },
+    });
+  };
+
+  useEffect(() => {
+    handleAddFeedback();
+  }, []);
+  return (
+    <section className="w-full bg-gray-200/70 px-11 md:px-48 py-10 h-screen">
+      <h1 className="flex justify-between items-center w-full text-2xl font-semibold">
+        AI Interview Session
+        <span className="flex items-center gap-3 justify-center">
+          <Timer /> 00:00:000
+        </span>
+      </h1>
+
+      <section className="mt-10">
+        <section className="md:flex md:justify-center items-center gap-5">
+          <Card className="mt-5 h-56 md:w-[500px] md:h-[400px] flex justify-center items-center">
+            <CardContent>
+              <section className="flex justify-center items-center flex-col gap-3">
+                <Image
+                  src="/AI_HR.png"
+                  alt="icon"
+                  width={100}
+                  height={100}
+                  className="rounded-full w-[70px] h-[70px] object-cover"
+                />
+                <h1 className="font-semibold text-lg">AI Recruiter</h1>
+              </section>
+            </CardContent>
+          </Card>
+          <Card className="mt-5 h-56 flex justify-center items-center md:w-[500px] md:h-[400px] ">
+            <CardContent>
+              <section className="flex justify-center items-center flex-col gap-3">
+                <div className="w-[70px] h-[70px] rounded-full bg-emerald-700 text-white flex justify-center items-center text-xl">
+                  {name?.[0]}
+                </div>
+                <h1 className="font-semibold text-lg">{name}</h1>
+              </section>
+            </CardContent>
+          </Card>
+        </section>
+        <section className="flex justify-center items-center gap-3 mt-10">
+          <Mic className="w-10 h-10 text-white bg-gray-600 rounded-full p-2 cursor-pointer" />
+          <Phone
+            onClick={() => vapi.stop()}
+            className="w-10 h-10 text-white bg-red-600 rounded-full p-2 cursor-pointer"
+          />
+        </section>
+        <h1 className="text-center mt-5 font-semibold text-lg">
+          Interview in progress
+        </h1>
+      </section>
+    </section>
+  );
+};
+
+export default Start;

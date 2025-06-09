@@ -4,31 +4,32 @@ import { createClient } from "./utils/supabase/server";
 
 const dashboardRegex = /^\/dashboard(\/|$)/;
 const publicRoutesRegex = /^\/$/;
+const interviewRegex = /^\/interview(\/.*)?$/; // allows /interview and /interview/:id
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Get user info (adjust to your auth/session method)
+  // Allow access to interview route for everyone
+  if (interviewRegex.test(pathname)) {
+    return NextResponse.next();
+  }
+
+  // Auth check
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   const userInfo = user?.email;
 
-  // If user NOT logged in and trying to access dashboard → redirect to "/"
+  // Redirect unauthenticated users trying to access /dashboard
   if (!userInfo && dashboardRegex.test(pathname)) {
-    if (pathname !== "/") {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // If user logged in and trying to access "/" → redirect to "/dashboard"
+  // Redirect logged-in users from "/" to "/dashboard"
   if (userInfo && publicRoutesRegex.test(pathname)) {
-    if (pathname !== "/dashboard") {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
-    }
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  // Allow request
   return NextResponse.next();
 }

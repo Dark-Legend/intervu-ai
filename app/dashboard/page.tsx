@@ -1,7 +1,8 @@
 // import { Button } from "@/components/ui/button/button";
-import { createClient } from "@/utils/supabase/server";
 import React from "react";
-import LogOut from "./LogOut";
+import { createClient } from "@/utils/supabase/server";
+import { DashboardInfo } from "./component/dashboardInfo/DashboardInfo";
+import { PreviouslyCreatedInterviews } from "./component/previouslyCreatedInterview/PreviouslyCreatedInterviews";
 
 const Dashboard = async () => {
   const supabase = await createClient();
@@ -9,10 +10,10 @@ const Dashboard = async () => {
 
   console.log(data);
   return (
-    <div>
-      Dashboard
-      <LogOut />
-    </div>
+    <section className="px-5 flex flex-col">
+      <DashboardInfo />
+      <PreviouslyCreatedInterviews />
+    </section>
   );
 };
 
