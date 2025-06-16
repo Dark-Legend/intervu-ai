@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { MoveLeft } from "lucide-react";
 import InterviewForm from "../interviewForm/InterviewForm";
 import { Progress } from "@/components/ui/progress/progress";
@@ -9,12 +9,14 @@ import InterviewLinkGenerate from "../interviewLinkGenerate/InterviewLinkGenerat
 import { setDashboardStore, useDashboardStore } from "@/app/dashboard/store";
 
 const BackInterview: React.FC = () => {
-  const [formData, setFormData] = useState({});
   const steps = useDashboardStore((s) => s.step);
   const handleFormData = (key: string, value: string | string[]) => {
-    setFormData((prev) => ({
+    setDashboardStore((prev) => ({
       ...prev,
-      [key]: value,
+      formData: {
+        ...prev.formData,
+        [key]: value,
+      },
     }));
   };
   const handleNextStep = () => {
@@ -47,10 +49,7 @@ const BackInterview: React.FC = () => {
 
         {steps === 2 && (
           <section className="flex justify-center items-center">
-            <InterviewQuestions
-              onStepHandler={handleNextStep}
-              formData={formData}
-            />
+            <InterviewQuestions onStepHandler={handleNextStep} />
           </section>
         )}
         {steps === 3 && <InterviewLinkGenerate />}
