@@ -20,7 +20,7 @@ const PreviousInterviewCard: React.FC<PreviousInterviewCardProps> = ({
     <Card className="w-full sm:w-72">
       <CardHeader className="flex items-center justify-between">
         <div className="w-7 h-7 bg-emerald-600 rounded-full"></div>
-        <p>{format(val?.created_at, "dd MMM yyyy")}</p>
+        <p>{format(val?.created_at as Date, "dd MMM yyyy")}</p>
       </CardHeader>
       <CardContent>
         <p className="font-semibold">{val?.job_position}</p>
