@@ -6,6 +6,13 @@ import { useGetPreviousInterviews } from "../../queries/query";
 import PreviousInterviewCard from "../previousInterviewCard/PreviousInterviewCard";
 // import { InterviewsEmptyView } from "./InterviewsEmptyView";
 
+type PreviousInterviewCardProp = {
+  created_at: Date;
+  job_position: string;
+  duration: string;
+  interview_id: string;
+} | null;
+
 export const PreviouslyCreatedInterviews: React.FC = () => {
   const email = useDashboardStore((s) => s.userData.email);
   const { data: previousInterviewList = [] } = useGetPreviousInterviews(email);
@@ -17,9 +24,11 @@ export const PreviouslyCreatedInterviews: React.FC = () => {
         <InterviewsEmptyView />
       </section> */}
       <section className="flex items-center gap-3 flex-wrap">
-        {previousInterviewList?.data?.map((val, i) => (
-          <PreviousInterviewCard val={val} key={i} />
-        ))}
+        {previousInterviewList?.data?.map(
+          (val: PreviousInterviewCardProp, i: number) => (
+            <PreviousInterviewCard val={val} key={i} />
+          )
+        )}
       </section>
     </section>
   );
