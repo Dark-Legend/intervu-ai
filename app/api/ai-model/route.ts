@@ -1,8 +1,8 @@
 import { QUESTION_GENERATE_PROMPT } from "@/app/constant";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   const { jobDescription, jobPosition, duration, type } = await request?.json();
   const questionPrompt = QUESTION_GENERATE_PROMPT?.replace(
     "{{jobDescription}}",
