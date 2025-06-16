@@ -7,7 +7,15 @@ import Link from "next/link";
 import React from "react";
 import toast from "react-hot-toast";
 
-const PreviousInterviewCard = ({ val, viewDetails }) => {
+type PreviousInterviewCardProps = {
+  val: unknown;
+  viewDetails: unknown;
+};
+
+const PreviousInterviewCard: React.FC<PreviousInterviewCardProps> = ({
+  val,
+  viewDetails,
+}) => {
   return (
     <Card className="w-full sm:w-72">
       <CardHeader className="flex items-center justify-between">
