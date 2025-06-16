@@ -12,7 +12,7 @@ export const InterviewsEmptyView: React.FC = () => {
           No Interviews Yet
         </h2>
         <p className="text-md mt-2 text-gray-500">
-          You haven't created any interviews. Start by creating one below.
+          You haven&apos;t created any interviews. Start by creating one below.
         </p>
       </div>
 

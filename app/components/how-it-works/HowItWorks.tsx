@@ -69,7 +69,7 @@ export const HowItWorks: React.FC = () => {
               <p className="text-gray-600">
                 Hit the <strong>Generate Questions</strong> button. Our AI
                 instantly generates customized, relevant interview questions
-                tailored to the role and type you've selected.
+                tailored to the role and type you&apos;ve selected.
               </p>
             </CardContent>
           </Card>
@@ -113,9 +113,9 @@ export const HowItWorks: React.FC = () => {
             </CardTitle>
             <CardContent>
               <p className="text-gray-600">
-                Once completed, you’ll receive a detailed report with candidate
-                responses, scoring, behavioral insights, and our AI’s
-                recommendations.
+                Once completed, you&apos;ll receive a detailed report with
+                candidate responses, scoring, behavioral insights, and our
+                AI&apos;s recommendations.
               </p>
             </CardContent>
           </Card>

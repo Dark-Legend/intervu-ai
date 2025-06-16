@@ -1,5 +1,4 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card/card";
 import { format } from "date-fns";
 import CandidateDetailDrawer from "../candidate-detail-drawer/CandidateDetailDrawer";
 

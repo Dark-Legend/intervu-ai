@@ -15,7 +15,7 @@ const Start = () => {
   const name = searchParams?.get("name");
   const email = searchParams?.get("email");
   const supabase = createClient();
-  const [conversation, setConversation] = useState({});
+  const [, setConversation] = useState({});
   const interviewInfo = useDashboardStore((s) => s.interviewInfo);
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY as string);
   const { mutate: getFeedback } = useGetFeedback();
@@ -82,7 +82,7 @@ const Start = () => {
   });
 
   const createFeedback = async (val) => {
-    const { data } = await supabase
+    await supabase
       .from("interview-feedback")
       .insert([
         {

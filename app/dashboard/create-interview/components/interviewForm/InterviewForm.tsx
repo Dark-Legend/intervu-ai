@@ -1,6 +1,6 @@
 "use client";
 
-import React, { SetStateAction, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button/button";
 import { Card, CardContent } from "@/components/ui/card/card";
 import { Input } from "@/components/ui/input";

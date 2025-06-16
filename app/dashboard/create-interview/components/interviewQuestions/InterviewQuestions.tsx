@@ -69,7 +69,7 @@ const InterviewQuestions: React.FC = ({ onStepHandler }) => {
             disabled={isPending}
           >
             {isPending && <Loader />}
-            You're Almost Done — Create Interview Link
+            You&apos;re Almost Done — Create Interview Link
           </Button>
         </div>
       </section>

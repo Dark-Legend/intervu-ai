@@ -8,7 +8,6 @@ import { Clock, Info, VideoIcon } from "lucide-react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useGetInterview } from "./query/query";
-import Link from "next/link";
 
 const Interview = () => {
   const { id } = useParams();
