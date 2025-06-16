@@ -8,7 +8,12 @@ import React from "react";
 import toast from "react-hot-toast";
 
 type PreviousInterviewCardProps = {
-  val: unknown;
+  val: {
+    created_at: Date;
+    job_position: string;
+    duration: string;
+    interview_id: string;
+  };
   viewDetails?: boolean;
 };
 
