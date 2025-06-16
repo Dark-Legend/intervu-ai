@@ -11,7 +11,7 @@ import { setDashboardStore, useDashboardStore } from "@/app/dashboard/store";
 const BackInterview: React.FC = () => {
   const [formData, setFormData] = useState({});
   const steps = useDashboardStore((s) => s.step);
-  const handleFormData = (key: string, value: string) => {
+  const handleFormData = (key: string, value: string | string[]) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value,

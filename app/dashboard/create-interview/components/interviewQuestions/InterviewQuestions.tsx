@@ -8,7 +8,13 @@ import { useCreateInterview } from "@/app/dashboard/queries/mutation";
 import { setDashboardStore, useDashboardStore } from "@/app/dashboard/store";
 import { v4 as uuidv4 } from "uuid";
 
-const GeneratedQuestionsCard = ({ question, types }) => (
+const GeneratedQuestionsCard = ({
+  question,
+  types,
+}: {
+  question: string;
+  types: string;
+}) => (
   <Card className="w-full rounded-lg">
     <CardContent className="flex flex-col gap-3">
       <p className="font-medium">{question}</p>
@@ -17,7 +23,13 @@ const GeneratedQuestionsCard = ({ question, types }) => (
   </Card>
 );
 
-const InterviewQuestions: React.FC = ({ onStepHandler }) => {
+type InterviewQuestionsType = {
+  onStepHandler: () => void;
+};
+
+const InterviewQuestions: React.FC<InterviewQuestionsType> = ({
+  onStepHandler,
+}) => {
   const { interviewQuestions, jobDescription, jobPosition, type, duration } =
     useDashboardStore((s) => s.formData);
   const email = useDashboardStore((s) => s.userData.email);
@@ -54,13 +66,15 @@ const InterviewQuestions: React.FC = ({ onStepHandler }) => {
           Generated Interview Questions
         </h1>
         <section className="flex justify-center items-center flex-wrap max-h-[500px] overflow-auto gap-3 border border-solid border-gray-200 rounded-lg p-5">
-          {interviewQuestions?.map((interview, i) => (
-            <GeneratedQuestionsCard
-              key={i}
-              question={interview?.question}
-              types={interview?.type}
-            />
-          ))}
+          {interviewQuestions?.map(
+            (interview: { question: string; type: string }, i: number) => (
+              <GeneratedQuestionsCard
+                key={i}
+                question={interview?.question}
+                types={interview?.type}
+              />
+            )
+          )}
         </section>
         <div className="flex justify-end w-full mt-3">
           <Button
