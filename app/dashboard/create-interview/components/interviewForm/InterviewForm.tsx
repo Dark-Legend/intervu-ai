@@ -31,11 +31,11 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
   );
   const { mutate: getQuestionMutations, isPending } = useGetQuestions();
 
-  const handleOnChange = (key: string, value: string) => {
+  const handleOnChange = (key: string, value: never) => {
     setDashboardStore((state) => {
       if (key === "type") {
         const currentTypes = state.formData["type"] || [];
-        const alreadySelected = currentTypes.includes(value);
+        const alreadySelected = currentTypes?.includes(value);
 
         const updatedTypes = alreadySelected
           ? currentTypes.filter((val) => val !== value)
