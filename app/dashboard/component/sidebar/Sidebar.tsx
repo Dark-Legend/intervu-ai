@@ -16,6 +16,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Logout from "../../LogOut";
+import { Plus } from "lucide-react";
 
 export const AppSideBar: React.FC = () => {
   const url = usePathname();
@@ -30,7 +31,10 @@ export const AppSideBar: React.FC = () => {
         <SidebarMenu>
           <Button>
             <Link className="w-full" href="/dashboard/create-interview">
-              Create New Interview
+              <span className="flex items-center gap-3">
+                <Plus />
+                Create New Interview
+              </span>
             </Link>
           </Button>
         </SidebarMenu>
