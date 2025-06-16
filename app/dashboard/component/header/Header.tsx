@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
       <HoverCard>
         <HoverCardTrigger>
           <img
-            src={userData?.img}
+            src={userData?.img as string}
             className="rounded-full cursor-pointer"
             width={35}
             height={35}
