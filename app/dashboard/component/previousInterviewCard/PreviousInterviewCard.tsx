@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 type PreviousInterviewCardProps = {
   val: unknown;
-  viewDetails: unknown;
+  viewDetails?: boolean;
 };
 
 const PreviousInterviewCard: React.FC<PreviousInterviewCardProps> = ({
