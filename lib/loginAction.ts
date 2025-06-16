@@ -22,7 +22,6 @@ const signinProvider = async (provider: "google") => {
     },
   });
   if (error) {
-    console.error("OAuth error:", error);
     throw new TypeError(error.message);
   }
 

@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const interviewId = searchParams?.get("interview_id");
 
   try {
-    let { data: interviewDetail } = await supabase
+    const { data: interviewDetail } = await supabase
       .from("interviewDetail")
       .select("*")
       .eq("interview_id", interviewId);

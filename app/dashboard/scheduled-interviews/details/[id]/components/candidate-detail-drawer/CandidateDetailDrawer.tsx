@@ -18,7 +18,6 @@ type CandidateDetailDrawerProp = {
 const CandidateDetailDrawer: React.FC<CandidateDetailDrawerProp> = ({
   candidateDetail,
 }) => {
-  console.log(candidateDetail);
   return (
     <Dialog>
       <DialogTrigger>

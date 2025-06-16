@@ -10,7 +10,6 @@ const ScheduledInterview = () => {
   const { data: scheduledInterviews } = useGetScheduledInterviews(
     email as string
   );
-  console.log(scheduledInterviews, "DATA");
   return (
     <section className="p-5 flex flex-col gap-3">
       <h1 className="text-black text-3xl font-semibold">

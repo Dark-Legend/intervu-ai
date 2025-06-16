@@ -66,7 +66,6 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
     getQuestionMutations(payload, {
       onSuccess: (data) => {
         const parsedData = JSON.parse(data)?.interviewQuestions;
-        console.log(parsedData, data, "DATA");
         setDashboardStore((state) => ({
           ...state,
           formData: {

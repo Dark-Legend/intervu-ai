@@ -46,7 +46,6 @@ const InterviewQuestions: React.FC = ({ onStepHandler }) => {
       },
     });
   };
-  console.log(email, "EMAIl");
   return (
     <section>
       {/* <InterviewQuestionLoading /> */}

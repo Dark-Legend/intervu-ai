@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       ],
     });
     const extractedData = completion?.choices[0].message.content;
-    console.log(completion?.choices[0].message.content);
+
     return NextResponse.json({ data: extractedData });
   } catch (e) {
     return NextResponse.json(e);

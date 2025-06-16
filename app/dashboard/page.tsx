@@ -8,7 +8,6 @@ const Dashboard = async () => {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 
-  console.log(data);
   return (
     <section className="px-5 flex flex-col">
       <DashboardInfo />

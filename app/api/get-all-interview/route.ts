@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const email = searchParams?.get("email");
   try {
-    let { data: interviewDetail, error } = await supabase
+    const { data: interviewDetail } = await supabase
       .from("interviewDetail")
       .select("*")
       .eq("user_email", email)

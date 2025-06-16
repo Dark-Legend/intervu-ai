@@ -13,7 +13,6 @@ const ScheduledInterviewDetails = () => {
   const { id } = useParams();
   const { email } = useDashboardStore((s) => s.userData);
   const { data: getInterviewData } = useGetScheduledInterviewDetail(email, id);
-  console.log(getInterviewData?.[0], "DATA");
   return (
     <section className="flex flex-col gap-5 p-5 w-full">
       <h1 className="font-semibold text-2xl">Interview Details</h1>

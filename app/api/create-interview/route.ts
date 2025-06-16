@@ -29,7 +29,6 @@ export async function POST(request: Request) {
         },
       ])
       .select();
-    console.log(data);
     return NextResponse.json({ data: data });
   } catch (e) {
     return NextResponse.json(e);

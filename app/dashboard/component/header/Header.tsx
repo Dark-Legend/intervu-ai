@@ -11,7 +11,6 @@ import { HoverCardContent } from "@radix-ui/react-hover-card";
 
 export const Header: React.FC = () => {
   const userData = useDashboardStore((s) => s.userData);
-  console.log(userData?.img);
   return (
     <section className="flex justify-end pr-5">
       <HoverCard>

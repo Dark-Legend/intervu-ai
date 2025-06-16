@@ -74,7 +74,6 @@ const Start = () => {
     vapi.start(assistant);
   };
   vapi.on("message", (message) => {
-    console.log(message, "MESSAGE");
     setConversation(message?.conversation);
   });
 
@@ -95,7 +94,6 @@ const Start = () => {
         },
       ])
       ?.select();
-    console.log(data, "DAAT");
   };
 
   const handleAddFeedback = () => {
@@ -182,7 +180,6 @@ const Start = () => {
     };
     getFeedback(payload, {
       onSuccess: (val) => {
-        console.log(val, interviewInfo, "DATA");
         createFeedback(val);
         // console.log(data, "DAAT");
       },

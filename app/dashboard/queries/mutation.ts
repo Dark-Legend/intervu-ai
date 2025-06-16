@@ -13,7 +13,6 @@ export const useGetQuestions = () => {
       });
       const result = await response?.json();
       const finalRes = result?.data?.replace("```json", "")?.replace("```", "");
-      console.log(finalRes, "RES");
       return finalRes;
     },
   });
