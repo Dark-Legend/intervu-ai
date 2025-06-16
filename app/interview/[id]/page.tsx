@@ -6,15 +6,23 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card/card";
 import { Input } from "@/components/ui/input";
 import { Clock, Info, VideoIcon } from "lucide-react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetInterview } from "./query/query";
 import Link from "next/link";
 
 const Interview = () => {
   const { id } = useParams();
+  const router = useRouter();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const { data: getInterviewInfo } = useGetInterview(id);
   console.log(id, getInterviewInfo);
+  const navigate = () => {
+    if (email && username) {
+      router?.push(`/interview/${id}/start?name=${username}&email=${email}`);
+    }
+  };
+
   return (
     <section className="flex justify-center items-center">
       <Card className="mt-16 w-96 md:w-2xl">
@@ -41,14 +49,25 @@ const Interview = () => {
               <Clock size={20} />
               {getInterviewInfo?.[0]?.duration}
             </div>
-            <div className="w-full flex justify-center items-center flex-col gap-2 mt-3">
-              <label>Enter you full name</label>
-              <Input
-                placeholder="e.g. John Wick"
-                className="w-96"
-                value={username}
-                onChange={(e) => setUsername(e?.target?.value)}
-              />
+            <div className="w-full flex justify-center items-center flex-col gap-5 mt-3">
+              <div>
+                <label>Enter you full name</label>
+                <Input
+                  placeholder="e.g. John Wick"
+                  className="w-96"
+                  value={username}
+                  onChange={(e) => setUsername(e?.target?.value)}
+                />
+              </div>
+              <div>
+                <label>Enter your email</label>
+                <Input
+                  placeholder="e.g. example@gmail.com"
+                  className="w-96"
+                  value={email}
+                  onChange={(e) => setEmail(e?.target?.value)}
+                />
+              </div>
             </div>
             <section className="m-5 w-ful">
               <div className="flex gap-3 bg-emerald-100/50 p-2 rounded-lg w-full">
@@ -68,15 +87,13 @@ const Interview = () => {
               </div>
             </section>
             <div></div>
-            <Link
-              href={`/interview/${id}/start/${username}`}
-              className="flex
-                 items-center gap-3"
+            <Button
+              className="w-96 h-10"
+              disabled={!username?.length || !email?.length}
+              onClick={navigate}
             >
-              <Button className="w-96 h-10" disabled={!username?.length}>
-                <VideoIcon /> Join Interview
-              </Button>
-            </Link>
+              <VideoIcon /> Join Interview
+            </Button>
           </section>
         </CardContent>
       </Card>

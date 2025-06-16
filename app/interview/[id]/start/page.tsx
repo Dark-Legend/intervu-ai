@@ -6,12 +6,14 @@ import { Mic, Phone, Timer } from "lucide-react";
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
 import { useDashboardStore } from "@/app/dashboard/store";
-import { useParams } from "next/navigation";
-import { useGetFeedback } from "../../query/mutation";
+import { useSearchParams } from "next/navigation";
+import { useGetFeedback } from "../query/mutation";
 import { createClient } from "@/utils/supabase/client";
 
 const Start = () => {
-  const { name } = useParams();
+  const searchParams = useSearchParams();
+  const name = searchParams?.get("name");
+  const email = searchParams?.get("email");
   const supabase = createClient();
   const [conversation, setConversation] = useState({});
   const interviewInfo = useDashboardStore((s) => s.interviewInfo);
@@ -69,7 +71,7 @@ const Start = () => {
       },
     };
 
-    // vapi.start(assistant);
+    vapi.start(assistant);
   };
   vapi.on("message", (message) => {
     console.log(message, "MESSAGE");
@@ -86,7 +88,7 @@ const Start = () => {
       .insert([
         {
           user_name: name,
-          user_email: interviewInfo?.user_email,
+          user_email: email,
           interview_id: interviewInfo?.interview_id,
           feedback: JSON.parse(val),
           recommended: false,
