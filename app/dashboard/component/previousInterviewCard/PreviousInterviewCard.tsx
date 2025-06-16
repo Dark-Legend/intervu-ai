@@ -13,7 +13,7 @@ type PreviousInterviewCardProps = {
     job_position: string;
     duration: string;
     interview_id: string;
-  };
+  } | null;
   viewDetails?: boolean;
 };
 

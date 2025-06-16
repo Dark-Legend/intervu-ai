@@ -10,7 +10,7 @@ type PreviousInterviewListValue = {
   job_position: string;
   duration: string;
   interview_id: string;
-};
+} | null;
 
 const AllInterviews = () => {
   const email = useDashboardStore((s) => s.userData.email);
