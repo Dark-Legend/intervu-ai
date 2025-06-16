@@ -2,8 +2,8 @@ import {
   CalendarCheck,
   LayoutDashboard,
   ListEnd,
-  Receipt,
-  Settings2,
+  // Receipt,
+  // Settings2,
 } from "lucide-react";
 
 export const SIDEBAR_ITEMS = [
@@ -14,6 +14,6 @@ export const SIDEBAR_ITEMS = [
     icon: CalendarCheck,
   },
   { title: "All Interviews", url: "/dashboard/all-interviews", icon: ListEnd },
-  { title: "Billing", url: "#", icon: Receipt },
-  { title: "Settings", url: "#", icon: Settings2 },
+  // { title: "Billing", url: "#", icon: Receipt },
+  // { title: "Settings", url: "#", icon: Settings2 },
 ];

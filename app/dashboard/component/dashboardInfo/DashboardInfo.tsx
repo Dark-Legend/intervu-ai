@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card/card";
 import { Phone, Video } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export const DashboardInfo: React.FC = () => {
@@ -12,10 +13,12 @@ export const DashboardInfo: React.FC = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <h1 className="font-bold text-2xl">Create New Interview</h1>
-          <p className="font-semibold text-black/50">
-            Create AI Interview and schedule then with Candidates
-          </p>
+          <Link href="dashboard/create-interview">
+            <h1 className="font-bold text-2xl">Create New Interview</h1>
+            <p className="font-semibold text-black/50">
+              Create AI Interview and schedule then with Candidates
+            </p>
+          </Link>
         </CardContent>
       </Card>
       <Card className="w-full">
@@ -25,11 +28,13 @@ export const DashboardInfo: React.FC = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <h1 className="font-bold text-2xl">Create Phone Screening Call</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Schedule a phone screening call with candidates easily and
-            efficiently.
-          </p>
+          <Link href="dashboard/create-interview">
+            <h1 className="font-bold text-2xl">Create Phone Screening Call</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Schedule a phone screening call with candidates easily and
+              efficiently.
+            </p>
+          </Link>
         </CardContent>
       </Card>
     </section>

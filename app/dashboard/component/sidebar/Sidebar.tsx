@@ -28,7 +28,11 @@ export const AppSideBar: React.FC = () => {
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
-          <Button>Create New Interview</Button>
+          <Button>
+            <Link className="w-full" href="/dashboard/create-interview">
+              Create New Interview
+            </Link>
+          </Button>
         </SidebarMenu>
         <SidebarMenu className="flex flex-col gap-3 mt-10">
           {SIDEBAR_ITEMS?.map((item) => (
@@ -60,7 +64,7 @@ export const AppSideBar: React.FC = () => {
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
-        <SidebarFooter className="mt-16">
+        <SidebarFooter className="mt-36">
           <Logout />
         </SidebarFooter>
       </SidebarContent>
