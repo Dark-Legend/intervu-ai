@@ -19,7 +19,7 @@ const InterviewComplete = () => {
         <div className="bg-blue-600 text-white w-12 h-12 rounded-full flex justify-center items-center p-2 mt-5">
           <Send />
         </div>
-        <h1 className="font-semibold text-xl">What's Next?</h1>
+        <h1 className="font-semibold text-xl">What&apos;s Next?</h1>
         <p className="text-black/60 md:w-1/2 text-center">
           The recrutier will review your interview responses and contact you
           soon regarding the next steps

@@ -21,7 +21,9 @@ const Start = () => {
   const { mutate: getFeedback } = useGetFeedback();
 
   useEffect(() => {
-    interviewInfo && startCall();
+    if (interviewInfo) {
+      startCall();
+    }
   }, [interviewInfo]);
 
   const startCall = () => {
