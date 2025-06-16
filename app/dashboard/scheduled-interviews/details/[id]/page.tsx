@@ -26,14 +26,14 @@ const ScheduledInterviewDetails = () => {
             <section className="flex items-center justify-between">
               <div>
                 <p className="text-base text-black/50">Duration</p>
-                <p className="text-lg font-semibold flex items-center gap-1">
+                <p className="text-sm sm:text-lg font-semibold flex items-center gap-1">
                   <Clock size={15} />
                   {getInterviewData?.[0]?.duration}
                 </p>
               </div>
               <div>
                 <p className="text-base text-black/50">Created On</p>
-                <p className="text-lg font-semibold flex items-center gap-1">
+                <p className="text-sm sm:text-lg font-semibold flex items-center gap-1">
                   <Calendar size={15} />
                   {getInterviewData?.[0]?.created_at &&
                     format(getInterviewData?.[0]?.created_at, "MM dd, yyyy")}
@@ -41,7 +41,7 @@ const ScheduledInterviewDetails = () => {
               </div>
               <div>
                 <p className="text-base text-black/50">Created On</p>
-                <p className="text-lg font-semibold flex items-center gap-1">
+                <p className="text-sm sm:text-lg font-semibold flex items-center gap-1">
                   <Tag size={15} />
                   {getInterviewData?.[0]?.type &&
                     JSON.parse(getInterviewData?.[0]?.type)?.[0]}

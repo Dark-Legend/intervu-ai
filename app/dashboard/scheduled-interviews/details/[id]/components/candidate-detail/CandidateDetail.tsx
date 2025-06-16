@@ -13,7 +13,7 @@ const CandidateDetail: React.FC<CandidateDetailProp> = ({ candidateList }) => {
       <h1 className="font-bold">
         Candidate ({candidateList?.[0]?.["interview-feedback"]?.length})
       </h1>
-      <section>
+      <section className="flex flex-col gap-2">
         {candidateList?.[0]?.["interview-feedback"]?.map((interview, i) => (
           <section
             key={i}

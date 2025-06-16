@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const data = await supabase
       .from("interviewDetail")
       .select(
-        "job_position, duration,job_duration,type,questions_list interview_id,created_at, interview-feedback(user_email)"
+        "job_position, duration,type,questions_list, interview_id,created_at, interview-feedback(user_email)"
       )
       .eq("user_email", email)
       .order("id", { ascending: false });
