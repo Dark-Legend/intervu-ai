@@ -9,7 +9,7 @@ const signinProvider = async (provider: "google") => {
   const origin =
     typeof window !== "undefined"
       ? window.location.origin
-      : "http://localhost:3000";
+      : process.env.NEXT_PUBLIC_HOST_URL;
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
