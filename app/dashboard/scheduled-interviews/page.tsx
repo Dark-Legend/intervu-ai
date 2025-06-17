@@ -25,7 +25,7 @@ const ScheduledInterview = () => {
         Scheduled Interviews
       </h1>
       <section className="flex items-center gap-3 flex-wrap">
-        {Array.isArray(scheduledInterviews)?.length ? (
+        {scheduledInterviews?.data?.length ? (
           scheduledInterviews?.data?.map(
             (val: PreviousInterviewCardProps, i: number) => (
               <PreviousInterviewCard val={val} key={i} viewDetails={true} />

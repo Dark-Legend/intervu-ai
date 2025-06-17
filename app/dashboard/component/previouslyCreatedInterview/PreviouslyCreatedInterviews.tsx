@@ -27,7 +27,7 @@ export const PreviouslyCreatedInterviews: React.FC = () => {
         <InterviewsEmptyView />
       </section> */}
       <section className="flex items-center gap-3 flex-wrap">
-        {Array.isArray(previousInterviewList)?.length ? (
+        {previousInterviewList?.data?.length ? (
           previousInterviewList?.data?.map(
             (val: PreviousInterviewCardProp, i: number) => (
               <PreviousInterviewCard val={val} key={i} />
