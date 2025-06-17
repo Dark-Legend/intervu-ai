@@ -5,7 +5,7 @@ import { createClient } from "./server";
 
 const signInWith = async (provider: "google") => {
   const supabase = await createClient();
-  const URL = "http://localhost:3000/auth/callback";
+  const URL = `${process.env.NEXT_PUBLIC_HOST_URL}/auth/callback`;
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
