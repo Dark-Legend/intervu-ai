@@ -7,7 +7,7 @@ import { Mic, Phone, Timer } from "lucide-react";
 import Image from "next/image";
 import Vapi from "@vapi-ai/web";
 import { useDashboardStore } from "@/app/dashboard/store";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useGetFeedback } from "../query/mutation";
 import { createClient } from "@/utils/supabase/client";
 import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
@@ -20,6 +20,7 @@ type InterviewInfoType = {
 
 const Start = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const name = searchParams?.get("name");
   const email = searchParams?.get("email");
   const supabase = createClient();
@@ -91,6 +92,7 @@ const Start = () => {
 
   vapi.on("call-end", () => {
     handleAddFeedback();
+    router?.push("/dashboard");
   });
 
   const createFeedback = async (val: string) => {
