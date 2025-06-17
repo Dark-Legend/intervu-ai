@@ -4,6 +4,7 @@ import React from "react";
 import { useDashboardStore } from "../../store";
 import { useGetPreviousInterviews } from "../../queries/query";
 import PreviousInterviewCard from "../previousInterviewCard/PreviousInterviewCard";
+import { InterviewsEmptyView } from "./InterviewsEmptyView";
 // import { InterviewsEmptyView } from "./InterviewsEmptyView";
 
 type PreviousInterviewCardProp = {
@@ -26,10 +27,16 @@ export const PreviouslyCreatedInterviews: React.FC = () => {
         <InterviewsEmptyView />
       </section> */}
       <section className="flex items-center gap-3 flex-wrap">
-        {previousInterviewList?.data?.map(
-          (val: PreviousInterviewCardProp, i: number) => (
-            <PreviousInterviewCard val={val} key={i} />
+        {Array.isArray(previousInterviewList)?.length ? (
+          previousInterviewList?.data?.map(
+            (val: PreviousInterviewCardProp, i: number) => (
+              <PreviousInterviewCard val={val} key={i} />
+            )
           )
+        ) : (
+          <section className="flex justify-center items-center w-full">
+            <InterviewsEmptyView />
+          </section>
         )}
       </section>
     </section>

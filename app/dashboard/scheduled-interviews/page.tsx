@@ -4,6 +4,7 @@ import React from "react";
 import { useDashboardStore } from "../store";
 import { useGetScheduledInterviews } from "./query/query";
 import PreviousInterviewCard from "../component/previousInterviewCard/PreviousInterviewCard";
+import { InterviewsEmptyView } from "../component/previouslyCreatedInterview/InterviewsEmptyView";
 
 type PreviousInterviewCardProps = {
   created_at: Date;
@@ -24,10 +25,16 @@ const ScheduledInterview = () => {
         Scheduled Interviews
       </h1>
       <section className="flex items-center gap-3 flex-wrap">
-        {scheduledInterviews?.data?.map(
-          (val: PreviousInterviewCardProps, i: number) => (
-            <PreviousInterviewCard val={val} key={i} viewDetails={true} />
+        {Array.isArray(scheduledInterviews)?.length ? (
+          scheduledInterviews?.data?.map(
+            (val: PreviousInterviewCardProps, i: number) => (
+              <PreviousInterviewCard val={val} key={i} viewDetails={true} />
+            )
           )
+        ) : (
+          <section className="flex justify-center items-center w-full mt-10">
+            <InterviewsEmptyView />
+          </section>
         )}
       </section>
     </section>
