@@ -3,9 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { supabase } from "@/service/supbaseClient";
 
 const signinProvider = async (provider: "google") => {
+  const supabase = await createClient();
   const origin =
     typeof window !== "undefined"
       ? window.location.origin

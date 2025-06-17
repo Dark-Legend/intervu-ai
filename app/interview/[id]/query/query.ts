@@ -1,7 +1,7 @@
 import { setDashboardStore } from "@/app/dashboard/store";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetInterview = (id) => {
+export const useGetInterview = (id: string) => {
   return useQuery({
     queryKey: ["getInterview", id],
     queryFn: async () => {

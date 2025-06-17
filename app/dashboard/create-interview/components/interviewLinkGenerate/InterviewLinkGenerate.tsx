@@ -60,9 +60,9 @@ const ShareViaSection = () => (
     <CardHeader className="font-semibold">Share Via</CardHeader>
     <CardContent>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-        {SHARE_LIST?.map((list) => (
+        {SHARE_LIST?.map((list, i) => (
           <section
-            key={list}
+            key={i as number}
             className="flex items-center justify-center jus gap-2 border border-solid border-gray-200 shadow py-2 px-5 rounded-lg hover:bg-gray-200/20 w-full"
           >
             <list.icon />

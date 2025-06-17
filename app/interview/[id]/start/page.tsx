@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-as-const */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -9,6 +10,13 @@ import { useDashboardStore } from "@/app/dashboard/store";
 import { useSearchParams } from "next/navigation";
 import { useGetFeedback } from "../query/mutation";
 import { createClient } from "@/utils/supabase/client";
+import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
+
+type InterviewInfoType = {
+  job_position: string;
+  questions_list: { question: string }[];
+  interview_id: string;
+};
 
 const Start = () => {
   const searchParams = useSearchParams();
@@ -16,7 +24,9 @@ const Start = () => {
   const email = searchParams?.get("email");
   const supabase = createClient();
   const [, setConversation] = useState({});
-  const interviewInfo = useDashboardStore((s) => s.interviewInfo);
+  const interviewInfo = useDashboardStore(
+    (s) => s.interviewInfo as InterviewInfoType
+  );
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY as string);
   const { mutate: getFeedback } = useGetFeedback();
 
@@ -27,11 +37,11 @@ const Start = () => {
   }, [interviewInfo]);
 
   const startCall = () => {
-    let questionList;
-    interviewInfo?.questions_list?.forEach((question) => {
+    let questionList: string = "";
+    interviewInfo?.questions_list?.forEach((question: { question: string }) => {
       questionList = question?.question + "," + questionList;
     });
-    const assistant = {
+    const assistant: CreateAssistantDTO = {
       name: "AI Recruiter",
       firstMessage: `Hi! ${name}, how are you? Ready for your interview on ${interviewInfo?.job_position}`,
       model: {
@@ -40,7 +50,7 @@ const Start = () => {
         temperature: 0.7,
         messages: [
           {
-            role: "system",
+            role: "system" as "system",
             content: `
               You are an AI voice assistant conducting interviews.
               Your job is to ask candidates provided interview questions and assess their responses.
@@ -83,7 +93,7 @@ const Start = () => {
     handleAddFeedback();
   });
 
-  const createFeedback = async (val) => {
+  const createFeedback = async (val: string) => {
     await supabase
       .from("interview-feedback")
       .insert([

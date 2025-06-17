@@ -2,8 +2,29 @@ import React from "react";
 import { format } from "date-fns";
 import CandidateDetailDrawer from "../candidate-detail-drawer/CandidateDetailDrawer";
 
+type CandidateDetailList = {
+  "interview-feedback": {
+    user_name: string;
+    user_email: string;
+    created_at: Date;
+    feedback: {
+      feedback: {
+        rating: {
+          experience: number;
+          communication: number;
+          problemSolving: number;
+          technicalSkills: number;
+        };
+        summary: string;
+        Recommendation: string;
+        RecommendationMsg: string;
+      };
+    };
+  }[];
+};
+
 type CandidateDetailProp = {
-  candidateList: unknown;
+  candidateList: CandidateDetailList[] | [];
 };
 
 const CandidateDetail: React.FC<CandidateDetailProp> = ({ candidateList }) => {

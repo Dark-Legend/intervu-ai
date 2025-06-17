@@ -14,7 +14,7 @@ const Interview = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const { data: getInterviewInfo } = useGetInterview(id);
+  const { data: getInterviewInfo } = useGetInterview(id as string);
   const navigate = () => {
     if (email && username) {
       router?.push(`/interview/${id}/start?name=${username}&email=${email}`);

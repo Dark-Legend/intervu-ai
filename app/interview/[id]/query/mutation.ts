@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 export const useGetFeedback = () => {
   return useMutation({
     mutationKey: ["getFeedback"],
-    mutationFn: async (payload) => {
+    mutationFn: async (payload: unknown) => {
       const url = `/api/ai-feedback`;
       const response = await fetch(url, {
         method: "POST",

@@ -54,10 +54,15 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
     });
   };
 
-  const handleQuestionMutation = (e) => {
+  const handleQuestionMutation = (e: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
 
-    const payload = {
+    const payload: {
+      jobPosition: string;
+      jobDescription: string;
+      type: string | string[] | [];
+      duration: string;
+    } = {
       jobPosition,
       jobDescription,
       type,
@@ -88,7 +93,9 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
             <Input
               value={jobPosition}
               placeholder="e.g Frontend Developer"
-              onChange={(e) => handleOnChange("jobPosition", e?.target?.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleOnChange("jobPosition", e?.target?.value as never)
+              }
               required
             />
           </div>
@@ -101,7 +108,7 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
               rows={6}
               cols={50}
               onChange={(e) =>
-                handleOnChange("jobDescription", e?.target?.value)
+                handleOnChange("jobDescription", e?.target?.value as never)
               }
               required
             />
@@ -109,7 +116,7 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
           <div className="flex flex-col gap-2">
             <p className="font-semibold">Interview Question</p>
             <Select
-              onValueChange={(e) => handleOnChange("duration", e)}
+              onValueChange={(e) => handleOnChange("duration", e as never)}
               value={duration}
               required
             >
@@ -134,11 +141,11 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
                 <div
                   key={item?.name}
                   onClick={() => {
-                    handleOnChange("type", item?.name);
+                    handleOnChange("type", item?.name as never);
                   }}
                   className={cn(
                     " flex items-center gap-1 border border-solid border-emerald-600 p-2 rounded-4xl text-sm hover:bg-gray-100/60 cursor-pointer",
-                    type?.includes(item?.name) &&
+                    type?.includes(item?.name as never) &&
                       "text-emerald-600 font-semibold"
                   )}
                 >

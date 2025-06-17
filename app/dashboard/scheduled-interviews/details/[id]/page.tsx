@@ -12,7 +12,10 @@ import CandidateDetail from "./components/candidate-detail/CandidateDetail";
 const ScheduledInterviewDetails = () => {
   const { id } = useParams();
   const { email } = useDashboardStore((s) => s.userData);
-  const { data: getInterviewData } = useGetScheduledInterviewDetail(email, id);
+  const { data: getInterviewData } = useGetScheduledInterviewDetail(
+    email as string,
+    id as string
+  );
   return (
     <section className="flex flex-col gap-5 p-5 w-full">
       <h1 className="font-semibold text-2xl">Interview Details</h1>
@@ -56,11 +59,13 @@ const ScheduledInterviewDetails = () => {
             <section className="flex flex-col gap-3">
               <h1 className="font-bold text-xl">Interview Questions</h1>
               <div className="h-80 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-5">
-                {getInterviewData?.[0]?.questions_list?.map((q, i) => (
-                  <p className="flex items-center text-black/60" key={i}>
-                    {i + 1} {q?.question}
-                  </p>
-                ))}
+                {getInterviewData?.[0]?.questions_list?.map(
+                  (q: { question: string }, i: number) => (
+                    <p className="flex items-center text-black/60" key={i}>
+                      {i + 1} {q?.question}
+                    </p>
+                  )
+                )}
               </div>
             </section>
           </section>

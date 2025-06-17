@@ -14,7 +14,9 @@ type PreviousInterviewListValue = {
 
 const AllInterviews = () => {
   const email = useDashboardStore((s) => s.userData.email);
-  const { data: previousInterviewList = [] } = useGetPreviousInterviews(email);
+  const { data: previousInterviewList = [] } = useGetPreviousInterviews(
+    email as string
+  );
   return (
     <section className="flex items-start gap-8 p-5 flex-col">
       <h1 className="text-3xl text-black font-semibold">All Interviews</h1>

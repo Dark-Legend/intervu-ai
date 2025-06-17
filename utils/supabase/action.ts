@@ -16,7 +16,7 @@ const signInWith = async (provider: "google") => {
     console.log(error);
   }
 
-  redirect(data?.url);
+  redirect(data?.url as string);
 };
 
 export { signInWith };

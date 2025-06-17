@@ -8,7 +8,11 @@ import Provider from "../provider";
 import { Header } from "./component/header/Header";
 import { Toaster } from "react-hot-toast";
 
-const DashboardLayout: React.FC = ({ children }) => {
+type DashboardLayoutProps = {
+  children: React.ReactNode;
+};
+
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <Provider>
       <SidebarProvider>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetPreviousInterviews = (email) => {
+export const useGetPreviousInterviews = (email: string) => {
   return useQuery({
     queryKey: ["getPreviousInteviews"],
     queryFn: async () => {

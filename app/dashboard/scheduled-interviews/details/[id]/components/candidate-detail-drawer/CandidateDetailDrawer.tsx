@@ -11,8 +11,26 @@ import { ArrowDownLeftFromSquare } from "lucide-react";
 import { Progress } from "@/components/ui/progress/progress";
 import { cn } from "@/lib/utils";
 
+type CandidateDetailList = {
+  user_name: string;
+  user_email: string;
+  feedback: {
+    feedback: {
+      rating: {
+        experience: number;
+        communication: number;
+        problemSolving: number;
+        technicalSkills: number;
+      };
+      summary: string;
+      Recommendation: string;
+      RecommendationMsg: string;
+    };
+  };
+};
+
 type CandidateDetailDrawerProp = {
-  candidateDetail: unknown;
+  candidateDetail: CandidateDetailList;
 };
 
 const CandidateDetailDrawer: React.FC<CandidateDetailDrawerProp> = ({

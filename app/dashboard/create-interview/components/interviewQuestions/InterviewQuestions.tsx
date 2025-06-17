@@ -36,7 +36,15 @@ const InterviewQuestions: React.FC<InterviewQuestionsType> = ({
   const { mutate: createInterviewMutation, isPending } = useCreateInterview();
 
   const handleCreateInterview = () => {
-    const payload = {
+    const payload: {
+      jobPosition: string;
+      jobDescription: string;
+      type: string | string[] | [];
+      duration: string;
+      interviewQuestions: [] | { question: string; type: string };
+      interviewId: string;
+      email: string | null;
+    } = {
       jobPosition,
       jobDescription,
       type,
@@ -66,15 +74,16 @@ const InterviewQuestions: React.FC<InterviewQuestionsType> = ({
           Generated Interview Questions
         </h1>
         <section className="flex justify-center items-center flex-wrap max-h-[500px] overflow-auto gap-3 border border-solid border-gray-200 rounded-lg p-5">
-          {interviewQuestions?.map(
-            (interview: { question: string; type: string }, i: number) => (
-              <GeneratedQuestionsCard
-                key={i}
-                question={interview?.question}
-                types={interview?.type}
-              />
-            )
-          )}
+          {Array.isArray(interviewQuestions) &&
+            interviewQuestions?.map(
+              (interview: { question: string; type: string }, i: number) => (
+                <GeneratedQuestionsCard
+                  key={i}
+                  question={interview?.question}
+                  types={interview?.type}
+                />
+              )
+            )}
         </section>
         <div className="flex justify-end w-full mt-3">
           <Button

@@ -15,7 +15,9 @@ type PreviousInterviewCardProp = {
 
 export const PreviouslyCreatedInterviews: React.FC = () => {
   const email = useDashboardStore((s) => s.userData.email);
-  const { data: previousInterviewList = [] } = useGetPreviousInterviews(email);
+  const { data: previousInterviewList = [] } = useGetPreviousInterviews(
+    email as string
+  );
 
   return (
     <section className="mt-10 flex flex-col gap-5">

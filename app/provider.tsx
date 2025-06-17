@@ -1,10 +1,14 @@
 "use client";
 
-import { createClient } from "@/utils/supabase/client";
 import React, { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import { setDashboardStore } from "./dashboard/store";
 
-const Provider = ({ children }) => {
+type ProviderProp = {
+  children: React.ReactNode;
+};
+
+const Provider: React.FC<ProviderProp> = ({ children }) => {
   const supabase = createClient();
   const [isReady, setIsReady] = useState(false);
 
