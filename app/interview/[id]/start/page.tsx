@@ -30,6 +30,33 @@ const Start = () => {
   );
   const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY as string);
   const { mutate: getFeedback } = useGetFeedback();
+  const [secondsElapsed, setSecondsElapsed] = useState(0);
+  const [isRunning, setIsRunning] = useState(true);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (isRunning) {
+      timer = setInterval(() => {
+        setSecondsElapsed((prev) => prev + 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(timer); // cleanup
+  }, [isRunning]);
+
+  const formatTime = (totalSeconds: number) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const pad = (num: number) => String(num).padStart(2, "0");
+    return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+  };
+
+  const handleEndCall = () => {
+    setIsRunning(false);
+  };
 
   useEffect(() => {
     if (interviewInfo) {
@@ -92,7 +119,7 @@ const Start = () => {
 
   vapi.on("call-end", () => {
     handleAddFeedback();
-    router?.push("/dashboard");
+    handleEndCall();
   });
 
   const createFeedback = async (val: string) => {
@@ -195,6 +222,7 @@ const Start = () => {
     getFeedback(payload, {
       onSuccess: (val) => {
         createFeedback(val);
+        router?.push("/dashboard");
         // console.log(data, "DAAT");
       },
     });
@@ -208,7 +236,7 @@ const Start = () => {
       <h1 className="flex justify-between items-center w-full text-2xl font-semibold">
         AI Interview Session
         <span className="flex items-center gap-3 justify-center">
-          <Timer /> 00:00:000
+          <Timer /> {formatTime(secondsElapsed)}
         </span>
       </h1>
 

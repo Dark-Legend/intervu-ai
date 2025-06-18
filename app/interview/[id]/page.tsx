@@ -22,8 +22,8 @@ const Interview = () => {
   };
 
   return (
-    <section className="flex justify-center items-center">
-      <Card className="mt-16 w-96 md:w-2xl">
+    <section className="flex justify-center items-center p-3">
+      <Card className="mt-16 w-full md:w-2xl">
         <CardHeader>
           <section className="flex  justify-center items-center flex-col gap-3">
             <h1 className="text-emerald-400 font-semibold text-3xl text-full">
@@ -52,7 +52,7 @@ const Interview = () => {
                 <label>Enter you full name</label>
                 <Input
                   placeholder="e.g. John Wick"
-                  className="w-96"
+                  className="w-full md:w-96"
                   value={username}
                   onChange={(e) => setUsername(e?.target?.value)}
                 />
@@ -61,13 +61,13 @@ const Interview = () => {
                 <label>Enter your email</label>
                 <Input
                   placeholder="e.g. example@gmail.com"
-                  className="w-96"
+                  className="w-full md:w-96"
                   value={email}
                   onChange={(e) => setEmail(e?.target?.value)}
                 />
               </div>
             </div>
-            <section className="m-5 w-ful">
+            <section className="m-5 w-full">
               <div className="flex gap-3 bg-emerald-100/50 p-2 rounded-lg w-full">
                 <Info className="text-emerald-600" />{" "}
                 <div className="flex flex-col gap-1">
@@ -86,7 +86,7 @@ const Interview = () => {
             </section>
             <div></div>
             <Button
-              className="w-96 h-10"
+              className="w-full md:w-96 h-10"
               disabled={!username?.length || !email?.length}
               onClick={navigate}
             >
