@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button/button";
 import { Plus, Video } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export const InterviewsEmptyView: React.FC = () => {
@@ -16,9 +17,14 @@ export const InterviewsEmptyView: React.FC = () => {
         </p>
       </div>
 
-      <Button className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
-        <Plus className="w-4 h-4" />
-        Create New Interview
+      <Button className=" bg-emerald-600 hover:bg-emerald-700 text-white">
+        <Link
+          href={"/dashboard/create-interview"}
+          className="flex items-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          Create New Interview
+        </Link>
       </Button>
     </section>
   );
