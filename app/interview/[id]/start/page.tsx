@@ -24,7 +24,7 @@ const Start = () => {
   const name = searchParams?.get("name");
   const email = searchParams?.get("email");
   const supabase = createClient();
-  const [, setConversation] = useState({});
+  const [conversation, setConversation] = useState({});
   const interviewInfo = useDashboardStore(
     (s) => s.interviewInfo as InterviewInfoType
   );
@@ -113,14 +113,6 @@ const Start = () => {
 
     vapi.start(assistant);
   };
-  vapi.on("message", (message) => {
-    setConversation(message?.conversation);
-  });
-
-  vapi.on("call-end", () => {
-    handleAddFeedback();
-    handleEndCall();
-  });
 
   const createFeedback = async (val: string) => {
     await supabase
@@ -138,99 +130,49 @@ const Start = () => {
   };
 
   const handleAddFeedback = () => {
-    const payload = {
-      conversation: [
-        {
-          role: "system",
-          content:
-            "You are an AI voice assistant conducting interviews.\n              Your job is to ask candidates provided interview questions and assess their responses.\n              Begin the conversation with a friendly introduction, setting a relaxed yet professional tone. Example:\n              \"Hey there! Welcome to your Frontend Developer` interview. Let's get started with a few questions!\"\n              Ask one question at a time and wait for the candidate's response before proceeding. Keep the questions clear and concise. Below are the questions.\n              Questions:Describe your experience with version control using Git. What branching strategies are you comfortable with?,How do you approach testing your React components? Are you familiar with Jest and React Testing Library?,Have you worked with build tools like Webpack or Vite? Can you briefly describe your experience with configuring or troubleshooting them?,What are your preferred methods for ensuring cross-browser compatibility and a...",
-        },
-        {
-          role: "assistant",
-          content:
-            "Hi, Mohit. How are you? Ready for your interview on front end developer?",
-        },
-        {
-          role: "user",
-          content: "Yeah. Sure. But, uh, can we share you after 5 minutes?",
-        },
-        {
-          role: "assistant",
-          content:
-            "Of course, Mohit. Take your time, and we'll start when you're ready. Just give me a shout when you're all set.",
-        },
-        {
-          role: "user",
-          content:
-            "No. No. Like, I I want to put the call. After that, I I I'll just ping you.",
-        },
-        {
-          role: "assistant",
-          content:
-            "Got it. No problem at all, Mohit. Just let me know when you're ready to jump back in, and we'll pick up from there. Talk soon.",
-        },
-        {
-          role: "user",
-          content: "Sure.",
-        },
-        {
-          role: "assistant",
-          content:
-            "Hey, Mohit. Welcome back. Let's get started with your front end developer.",
-        },
-        {
-          role: "user",
-          content:
-            "No. No. Can can we can we stop the interview? I have to go somewhere.",
-        },
-        {
-          role: "assistant",
-          content:
-            "No worries at all, Mohit. No worries at all, Mohit. Life happens. We can always reschedule for a better time. Take care, and good luck with whatever you need to attend to. See you soon.",
-        },
-        {
-          role: "user",
-          content: "Yeah. Bye.",
-        },
-        {
-          role: "assistant",
-          content:
-            "Bye, Mohit. Take care. Hey again. Changed your mind? Want to jump back into the interview?",
-        },
-        {
-          role: "user",
-          content:
-            "Oh, can you please cut the call? Can can we end this call over there?",
-        },
-        {
-          role: "assistant",
-          content:
-            "Absolutely, Mohit. We'll wrap it up here. Have a great day ahead.",
-        },
-        {
-          role: "user",
-          content:
-            "Yeah. This I literally got power electricity at the beam struck. But",
-        },
-        {
-          role: "assistant",
-          content:
-            "Oh, no. That sounds no problem, Mohit. Sounds like you're dealing with a sudden situation. Let's pause here, and you can reach out when things settle down. Take care.",
-        },
-      ],
-    };
+    const payload = conversation;
+
     getFeedback(payload, {
       onSuccess: (val) => {
+        console.log(val, "VALL");
         createFeedback(val);
-        router?.push("/dashboard");
+        router.replace(`/interview/${interviewInfo?.interview_id}/completed`);
         // console.log(data, "DAAT");
       },
     });
   };
 
+  vapi.on("call-start", () => {
+    console.log("Call Started");
+  });
+  vapi.on("speech-start", () => {
+    console.log("Speech Started");
+  });
+  vapi.on("call-end", () => {
+    console.log("Call Ended");
+  });
+  vapi.on("speech-end", () => {
+    console.log("Speech Ended");
+  });
+
   useEffect(() => {
-    handleAddFeedback();
+    const handleMessage = (message) => {
+      setConversation(message?.conversation);
+    };
+    vapi.on("message", handleMessage);
+    return () => {
+      vapi.off("message", handleMessage);
+      vapi.off("call-start", () => {
+        console.log("Call Ended");
+      });
+      vapi.off("call-end", () => {
+        console.log("Call Ended");
+      });
+      vapi.off("speech-start", () => console.log("END"));
+      vapi.off("speech-end", () => console.log("End"));
+    };
   }, []);
+
   return (
     <section className="w-full bg-gray-200/70 px-11 md:px-48 py-10 h-screen">
       <h1 className="flex justify-between items-center w-full text-2xl font-semibold">
@@ -270,7 +212,11 @@ const Start = () => {
         <section className="flex justify-center items-center gap-3 mt-10">
           <Mic className="w-10 h-10 text-white bg-gray-600 rounded-full p-2 cursor-pointer" />
           <Phone
-            onClick={() => vapi.stop()}
+            onClick={() => {
+              vapi.stop();
+              handleAddFeedback();
+              handleEndCall();
+            }}
             className="w-10 h-10 text-white bg-red-600 rounded-full p-2 cursor-pointer"
           />
         </section>

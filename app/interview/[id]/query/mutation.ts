@@ -7,7 +7,7 @@ export const useGetFeedback = () => {
       const url = `/api/ai-feedback`;
       const response = await fetch(url, {
         method: "POST",
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ conversation: payload }),
       });
       const result = await response?.json();
       const content = result?.data?.content

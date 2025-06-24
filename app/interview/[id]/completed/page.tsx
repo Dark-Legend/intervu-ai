@@ -4,7 +4,7 @@ import React from "react";
 
 const InterviewComplete = () => {
   return (
-    <section>
+    <section className="flex justify-center items-center flex-col gap-2 w-full">
       <section className="flex justify-center items-center flex-col gap-3 p-3">
         <Image
           src="/completeTick.png"
