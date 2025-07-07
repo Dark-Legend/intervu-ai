@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/prefer-as-const */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card/card";
 import { Mic, Phone, Timer } from "lucide-react";
 import Image from "next/image";
-import Vapi from "@vapi-ai/web";
 import { useDashboardStore } from "@/app/dashboard/store";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useGetFeedback } from "../query/mutation";
 import { createClient } from "@/utils/supabase/client";
 import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
+import { clearVapiInstance, getVapiInstance } from "@/lib/vapi";
+import Vapi from "@vapi-ai/web";
 
 type InterviewInfoType = {
   job_position: string;
@@ -28,10 +29,11 @@ const Start = () => {
   const interviewInfo = useDashboardStore(
     (s) => s.interviewInfo as InterviewInfoType
   );
-  const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY as string);
   const { mutate: getFeedback } = useGetFeedback();
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
+  const [vapi, setVapi] = useState<Vapi | null>(null);
+  const hasStartedRef = useRef(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -57,12 +59,6 @@ const Start = () => {
   const handleEndCall = () => {
     setIsRunning(false);
   };
-
-  useEffect(() => {
-    if (interviewInfo) {
-      startCall();
-    }
-  }, [interviewInfo]);
 
   const startCall = () => {
     let questionList: string = "";
@@ -142,24 +138,35 @@ const Start = () => {
     });
   };
 
-  vapi.on("call-start", () => {
-    console.log("Call Started");
-  });
-  vapi.on("speech-start", () => {
-    console.log("Speech Started");
-  });
-  vapi.on("call-end", () => {
-    console.log("Call Ended");
-  });
-  vapi.on("speech-end", () => {
-    console.log("Speech Ended");
-  });
+  useEffect(() => {
+    const instance = getVapiInstance();
+    setVapi(instance);
+
+    return () => {
+      instance?.stop();
+      clearVapiInstance();
+    };
+  }, []);
 
   useEffect(() => {
+    if (!vapi || !interviewInfo || hasStartedRef.current) return;
+    hasStartedRef.current = true;
+
     const handleMessage = (message) => {
       setConversation(message?.conversation);
     };
+
+    const handleCallStart = () => console.log("Call Started");
+    const handleSpeechStart = () => console.log("Speech Started");
+    const handleCallEnd = () => console.log("Call Ended");
+    const handleSpeechEnd = () => console.log("Speech Ended");
     vapi.on("message", handleMessage);
+    vapi.on("call-start", handleCallStart);
+    vapi.on("speech-start", handleSpeechStart);
+    vapi.on("call-end", handleCallEnd);
+    vapi.on("speech-end", handleSpeechEnd);
+    startCall();
+
     return () => {
       vapi.off("message", handleMessage);
       vapi.off("call-start", () => {
@@ -170,8 +177,10 @@ const Start = () => {
       });
       vapi.off("speech-start", () => console.log("END"));
       vapi.off("speech-end", () => console.log("End"));
+      vapi.stop();
+      hasStartedRef.current = false;
     };
-  }, []);
+  }, [vapi, interviewInfo]);
 
   return (
     <section className="w-full bg-gray-200/70 px-11 md:px-48 py-10 h-screen">
