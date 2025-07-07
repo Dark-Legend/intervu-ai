@@ -25,7 +25,7 @@ const Start = () => {
   const name = searchParams?.get("name");
   const email = searchParams?.get("email");
   const supabase = createClient();
-  const [conversation, setConversation] = useState({});
+  const [conversation, setConversation] = useState<object | string>({});
   const interviewInfo = useDashboardStore(
     (s) => s.interviewInfo as InterviewInfoType
   );
@@ -107,7 +107,7 @@ const Start = () => {
       },
     };
 
-    vapi.start(assistant);
+    vapi?.start(assistant);
   };
 
   const createFeedback = async (val: string) => {
@@ -152,7 +152,7 @@ const Start = () => {
     if (!vapi || !interviewInfo || hasStartedRef.current) return;
     hasStartedRef.current = true;
 
-    const handleMessage = (message) => {
+    const handleMessage = (message: { conversation: string }) => {
       setConversation(message?.conversation);
     };
 
@@ -222,7 +222,7 @@ const Start = () => {
           <Mic className="w-10 h-10 text-white bg-gray-600 rounded-full p-2 cursor-pointer" />
           <Phone
             onClick={() => {
-              vapi.stop();
+              if (vapi) vapi.stop();
               handleAddFeedback();
               handleEndCall();
             }}
