@@ -27,7 +27,7 @@ type InterviewFormProps = {
 
 const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
   const { jobDescription, jobPosition, type, duration } = useDashboardStore(
-    (s) => s.formData
+    (s) => s.formData,
   );
   const { mutate: getQuestionMutations, isPending } = useGetQuestions();
 
@@ -70,12 +70,11 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
     };
     getQuestionMutations(payload, {
       onSuccess: (data) => {
-        const parsedData = JSON.parse(data)?.interviewQuestions;
         setDashboardStore((state) => ({
           ...state,
           formData: {
             ...state.formData,
-            interviewQuestions: parsedData,
+            interviewQuestions: data,
           },
         }));
         onStepHandler();
@@ -146,7 +145,7 @@ const InterviewForm: React.FC<InterviewFormProps> = ({ onStepHandler }) => {
                   className={cn(
                     " flex items-center gap-1 border border-solid border-emerald-600 p-2 rounded-4xl text-sm hover:bg-gray-100/60 cursor-pointer",
                     type?.includes(item?.name as never) &&
-                      "text-emerald-600 font-semibold"
+                      "text-emerald-600 font-semibold",
                   )}
                 >
                   <item.icon size={15} className="text-emerald-600" />

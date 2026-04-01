@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const { conversation } = await req?.json();
   const feedback = FEEDBACK_PROMPT?.replace(
     "{{conversation}}",
-    JSON.stringify(conversation)
+    JSON.stringify(conversation),
   );
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   try {
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       apiKey: OPENAI_API_KEY,
     });
     const completion = await openai.chat.completions.create({
-      model: "google/gemma-3-27b-it:free",
+      model: "nvidia/nemotron-3-super-120b-a12b:free",
       messages: [
         {
           role: "user",

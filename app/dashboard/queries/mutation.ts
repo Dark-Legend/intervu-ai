@@ -19,8 +19,7 @@ export const useGetQuestions = () => {
         body: JSON.stringify(payload),
       });
       const result = await response?.json();
-      const finalRes = result?.data?.replace("```json", "")?.replace("```", "");
-      return finalRes;
+      return result?.data;
     },
   });
 };

@@ -82,7 +82,7 @@ const InterviewQuestions: React.FC<InterviewQuestionsType> = ({
                   question={interview?.question}
                   types={interview?.type}
                 />
-              )
+              ),
             )}
         </section>
         <div className="flex justify-end w-full mt-3">
